@@ -213,12 +213,26 @@
 
         // BUG FIX: Sınavdan çıkıldığında tüm ilerlemeyi sıfırla
         function exitQuiz() { 
+            // 1. Zamanlayıcıyı kesin olarak durdur
             clearInterval(timerInterval); 
+            
+            // 2. Sınav verilerini tamamen temizle
             quizStack = [];
             currentQuizIdx = 0;
             currentStepIdx = 0;
             wrongSteps = [];
-            document.getElementById('quiz-screen').classList.add('hidden'); 
+            
+            // 3. UI Temizliği (Ekranda kalan eski verileri siler)
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('feedback').innerHTML = '';
+            document.getElementById('user-item').value = '';
+            document.getElementById('user-action').value = '';
+            document.getElementById('progress-bar').style.width = '0%';
+            
+            // 4. Ekranları değiştir ve listeyi YENİDEN YÜKLE
+            document.getElementById('quiz-screen').classList.add('hidden');
+            
+            // currentCategory neyse (must veya all) listeyi tazeleyerek göster
             showList(currentCategory); 
         }
 
