@@ -127,9 +127,19 @@
                     {i:"After Touch-Down", a:"Apply brakes", fixedItem: true}
                 ] 
             },
-            "6": { name: "Restarting Engine (Full Stop)", must: false, steps: [{i:"Airspeed", a:"80 KIAS"}, {i:"Ignition Switch", a:"START"}, {i:"Mixture", a:"FULL RICH"}, {i:"Throttle", a:"at present position"}] }, // Basitleştirilmiş
-            "7": { name: "After Successful Restart", must: false, steps: [{i:"Oil Pressure", a:"Check"}, {i:"Engine Parameters", a:"Monitor"}, {i:"Flight", a:"Terminate ASAP"}] },
-            "8": { name: "Shortly Before Landing", must: false, steps: [{i:"Airspeed", a:"55 KIAS"}, {i:"Flaps", a:"LDG"}, {i:"Ignition Switch", a:"OFF"}, {i:"Master Switch", a:"OFF"}] }
+            "6": { name: "Restarting Engine (Full Stop)",
+                  must: true, steps: [{i:"Airspeed", a:"73 KIAS"},
+                                      {i:"Electrically Powered Equipment", a:"OFF"},
+                                      {i:"GEN/BAT Master Switch", a:"ON"},
+                                      {i:"Mixture", a:"Full Rich"},
+                                      {i:"Fuel Shut off Valve", a:"OPEN"},
+                                      {i:"Fuel Pump", a:"ON"},
+                                      {i:"Fuel Prime", a:"ON"},
+                                      {i:"Throttle", a:"2 cm forward"},
+                                      {i:"Ignition Switch", a:"Start"},
+                                      {i:"Ignition Switch with Push-to-Start (Optional)", a:"Start (TURN then PUSH"}, fixedItem: true] }, 
+            "7": { name: "After Successful Restart", must: true, steps: [{i:"Oil Pressure", a:"Check"}, {i:"Oil Temperature", a:"Check"}, {i:"Fuel Prime", a:"Off"}, {i:"Electrically Powered Equipment", a:"ON if required"}, fixedItem: true] },
+            "8": { name: "Shortly Before Landing", must: true, steps: [{i:"Mixture", a:"Full Rich"},{i:"Fuel Shut off Valve", a:"Closed"}, {i:"Ignition Switch", a:"Off"}, {i:"Flaps", a:"as required"},{i:"GEN/BAT Master Switch", a:"Off"}] }
         };
 
         const scenarioConfig = {
