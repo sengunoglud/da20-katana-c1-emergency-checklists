@@ -124,9 +124,18 @@
                     {i:"After Touch-Down", a:"Apply brakes", fixedItem: true}
                 ] 
             },
-            "6": { name: "Restarting Engine (Full Stop)", must: true, steps: [{i:"Airspeed", a:"73 KIAS"}, {i:"Electrically Powered Equipment", a:"OFF"}, {i:"GEN/BAT Master Switch", a:"ON"}, {i:"Mixture", a:"Full Rich"}, {i:"Fuel Shut off Valve", a:"OPEN"}, {i:"Fuel Pump", a:"ON"}, {i:"Fuel Prime", a:"ON"}, {i:"Throttle", a:"2 cm forward"}, {i:"Ignition Switch", a:"Start"}] },
-            "7": { name: "After Successful Restart", must: true, steps: [{i:"Oil Pressure", a:"Check"}, {i:"Oil Temperature", a:"Check"}, {i:"Fuel Prime", a:"Off"}, {i:"Electrically Powered Equipment", a:"ON if required"}] },
-            "8": { name: "Shortly Before Landing", must: true, steps: [{i:"Mixture", a:"Full Rich"},{i:"Fuel Shut off Valve", a:"Closed"}, {i:"Ignition Switch", a:"Off"}, {i:"Flaps", a:"as required"},{i:"GEN/BAT Master Switch", a:"Off"}] }
+            "6": { name: "Trim System Failure (Runaway)", must: true, steps: [{i:"Control Stick", a:"Grip and maintain control"}, {i:"Trim motor circuit breaker", a:"Pull"}, {i:"Rocker Switch", a:"Check"}] },
+            "7": { name: "Flap System Failure", must: true, steps: [{i:"Visual Check", a:"Verify position"}, {i:"Flap Control Circuit Breaker", a:"Check/Reset"}, {i:"Flap Switch", a:"Check"}, {i:"Airspeed", a:"Within white arc"}] },
+            "8": { name: "Engine Fire during Flight", must: false, steps: [{i:"Fuel Shut-off Valve", a:"CLOSED"}, {i:"Cabin Heat", a:"CLOSED"}, {i:"Airspeed", a:"73 KIAS"}, {i:"Fuel Pump", a:"OFF"}] },
+            "9": { name: "Electrical Fire during Flight", must: false, steps: [{i:"GEN/BAT Master Switch", a:"OFF"}, {i:"Cabin Air", a:"OPEN"}, {i:"Avionics Master Switch", a:"OFF"}, {i:"Circuit Breakers", a:"Pull all"}] },
+            "10": { name: "Recovery from Unintentional Spin", must: false, steps: [{i:"Throttle", a:"IDLE"}, {i:"Rudder", a:"fully opposite to spin"}, {i:"Control Stick", a:"ease forward"}, {i:"Wing Flaps", a:"CRUISE"}] },
+            "11": { name: "Precautionary Landing", must: false, steps: [{i:"Search for landing site", a:"Select field"}, {i:"Safety Belts", a:"Secured"}, {i:"Airspeed", a:"60 KIAS"}, {i:"Flaps", a:"T/O"}] },
+            "12": { name: "Generator Failure", must: false, steps: [{i:"GEN Master Switch", a:"Cycle OFF-ON"}, {i:"Non-essential equipment", a:"OFF"}, {i:"Ammeter", a:"Monitor"}] },
+            "13": { name: "Icing", must: false, steps: [{i:"Pitot Heat", a:"ON"}, {i:"Icing area", a:"Leave immediately"}, {i:"Cabin Heat", a:"OPEN"}] },
+            "14": { name: "Engine Fire on Ground", must: false, steps: [{i:"Fuel Shut-off Valve", a:"CLOSED"}, {i:"Mixture", a:"IDLE CUT-OFF"}, {i:"Ignition Switch", a:"OFF"}, {i:"Master Switch", a:"OFF"}] },
+            "15": { name: "Restarting Engine (Full Stop)", must: true, steps: [{i:"Airspeed", a:"73 KIAS"}, {i:"Electrically Powered Equipment", a:"OFF"}, {i:"GEN/BAT Master Switch", a:"ON"}, {i:"Mixture", a:"Full Rich"}, {i:"Fuel Shut off Valve", a:"OPEN"}, {i:"Fuel Pump", a:"ON"}, {i:"Fuel Prime", a:"ON"}, {i:"Throttle", a:"2 cm forward"}, {i:"Ignition Switch", a:"Start"}] },
+            "16": { name: "After Successful Restart", must: true, steps: [{i:"Oil Pressure", a:"Check"}, {i:"Oil Temperature", a:"Check"}, {i:"Fuel Prime", a:"Off"}, {i:"Electrically Powered Equipment", a:"ON if required"}] },
+            "17": { name: "Shortly Before Landing", must: true, steps: [{i:"Mixture", a:"Full Rich"},{i:"Fuel Shut off Valve", a:"Closed"}, {i:"Ignition Switch", a:"Off"}, {i:"Flaps", a:"as required"},{i:"GEN/BAT Master Switch", a:"Off"}] }
         };
 
         const scenarioConfig = {
