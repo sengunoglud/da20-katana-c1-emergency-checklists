@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DA20 Katana Mastery v5.5</title>
+    <title>DA20 Katana Mastery v5.6 - Bug Fixed</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         input:focus { font-size: 16px !important; }
-        .must-know-tag { background: #f59e0b; color: #000; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 900; margin-right: 8px; }
         .timer-glow { text-shadow: 0 0 15px rgba(245, 158, 11, 0.6); }
         .modal-animate { animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes modalIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
@@ -212,10 +211,21 @@
             timerInterval = setInterval(() => { document.getElementById('timer-display').innerText = ((Date.now() - timerStart) / 1000).toFixed(1) + "s"; }, 100);
         }
 
-        function exitQuiz() { clearInterval(timerInterval); showList(currentCategory); }
+        // BUG FIX: Sınavdan çıkıldığında tüm ilerlemeyi sıfırla
+        function exitQuiz() { 
+            clearInterval(timerInterval); 
+            quizStack = [];
+            currentQuizIdx = 0;
+            currentStepIdx = 0;
+            wrongSteps = [];
+            document.getElementById('quiz-screen').classList.add('hidden'); 
+            showList(currentCategory); 
+        }
 
         function nextQuestion() {
             const quizId = quizStack[currentQuizIdx];
+            if (!quizId) return; // Güvenlik kontrolü
+
             const quiz = checklists[quizId];
             const best = localStorage.getItem(`best_${quizId}`);
 
@@ -241,7 +251,7 @@
 
             const currentStep = quiz.steps[currentStepIdx];
             document.getElementById('best-time-display').innerText = best ? `RECORD: ${best}s` : "NEW";
-            document.getElementById('quiz-stack-progress').innerText = `STEP ${currentStepIdx + 1}/${quiz.steps.length}`;
+            document.getElementById('quiz-stack-progress').innerText = `PROCEDURE ${currentQuizIdx + 1}/${quizStack.length}`;
             document.getElementById('progress-bar').style.width = ((currentStepIdx / quiz.steps.length) * 100) + "%";
             document.getElementById('current-title').innerText = quiz.name;
             
@@ -249,7 +259,7 @@
             const actionInput = document.getElementById('user-action');
 
             if (currentStep.allFixed) {
-                itemInput.value = "Radio";
+                itemInput.value = currentStep.i;
                 actionInput.value = currentStep.a;
                 itemInput.readOnly = actionInput.readOnly = true;
                 itemInput.classList.add('opacity-50'); actionInput.classList.add('opacity-50');
@@ -274,7 +284,8 @@
         function checkAnswer() {
             const ui = document.getElementById('user-item').value;
             const ua = document.getElementById('user-action').value;
-            const correct = checklists[quizStack[currentQuizIdx]].steps[currentStepIdx];
+            const quizId = quizStack[currentQuizIdx];
+            const correct = checklists[quizId].steps[currentStepIdx];
             const fb = document.getElementById('feedback');
             fb.classList.remove('hidden');
 
