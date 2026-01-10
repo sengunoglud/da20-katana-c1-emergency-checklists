@@ -93,6 +93,7 @@
                         <input type="text" id="user-action" class="w-full bg-slate-800 border-2 border-slate-700 p-4 rounded-2xl focus:outline-none focus:border-amber-500 text-white font-bold transition-all text-lg" autocomplete="off" spellcheck="false">
                     </div>
                     <button onclick="checkAnswer()" id="check-btn" class="w-full bg-amber-600 py-5 rounded-2xl font-black text-xl shadow-lg active:scale-95 transition-all text-black uppercase italic">KONTROL ET</button>
+                    <button onclick="showHint()" class="flex-1 bg-slate-800 border-2 border-slate-700 py-5 rounded-2xl font-black text-xs shadow-lg active:scale-95 transition-all text-amber-500 uppercase italic">İPUCU</button>
                     <div id="feedback" class="mt-4 p-4 rounded-2xl hidden text-center font-bold text-sm border"></div>
                 </div>
                 <button onclick="exitQuiz()" class="mt-10 text-slate-600 font-black text-[10px] uppercase tracking-[0.4em]">SINAVI YARIDA KES</button>
@@ -483,6 +484,33 @@
                 wrongSteps.push(JSON.parse(JSON.stringify(correct)));
                 setTimeout(() => { currentStepIdx++; nextQuestion(); }, 2500);
             }
+        }
+
+        function showHint() {
+            const quizId = quizStack[currentQuizIdx];
+            const correct = checklists[quizId].steps[currentStepIdx];
+            const itemInput = document.getElementById('user-item');
+            const actionInput = document.getElementById('user-action');
+        
+            // Mevcut değerleri sakla (Eğer kullanıcı bir şey yazmışsa geri dönsün diye)
+            const oldItem = itemInput.value;
+            const oldAction = actionInput.value;
+        
+            // İpucunu göster
+            if (!itemInput.readOnly) itemInput.value = correct.i;
+            if (!actionInput.readOnly) actionInput.value = correct.a;
+        
+            // Görsel geri bildirim
+            itemInput.classList.add('border-amber-500/50');
+            actionInput.classList.add('border-amber-500/50');
+        
+            // 1.5 saniye sonra eski haline getir (veya temizle)
+            setTimeout(() => {
+                itemInput.value = oldItem;
+                actionInput.value = oldAction;
+                itemInput.classList.remove('border-amber-500/50');
+                actionInput.classList.remove('border-amber-500/50');
+            }, 1500);
         }
 
         // --- HELPERS ---
