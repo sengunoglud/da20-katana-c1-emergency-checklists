@@ -537,15 +537,22 @@
         }
 
         function isCorrect(input, correct) {
-            let inVal = input.toLowerCase().trim();
-            let corVal = correct.toLowerCase().replace('kias', '').trim();
+            // İngilizce kurallarına göre küçük harfe çevir (Büyük İ hatasını önler)
+            let inVal = input.toLocaleLowerCase('en-US').trim();
+            let corVal = correct.toLocaleLowerCase('en-US').replace('kias', '').trim();
         
+            // 1. Tam eşleşme kontrolü
+            if (inVal === corVal) return true;
+        
+            // 2. ON/OPEN ve OFF/CLOSED/CLOSE esnekliği
             const onOpen = ["on", "open"];
             const offClosed = ["off", "closed", "close"];
         
+            // Eğer doğru cevap bu listelerden birindeyse ve kullanıcı diğerini yazdıysa doğru kabul et
             if (onOpen.includes(corVal) && onOpen.includes(inVal)) return true;
             if (offClosed.includes(corVal) && offClosed.includes(inVal)) return true;
         
+            // 3. Typo (Levenshtein) kontrolü
             const dist = getLevenshteinDistance(inVal, corVal);
             return corVal.length <= 4 ? dist <= 1 : dist <= 2;
         }
