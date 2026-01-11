@@ -537,8 +537,17 @@
         }
 
         function isCorrect(input, correct) {
-            const dist = getLevenshteinDistance(input, correct);
-            return (correct.toLowerCase().replace('kias', '').trim().length <= 4) ? dist <= 1 : dist <= 2;
+            let inVal = input.toLowerCase().trim();
+            let corVal = correct.toLowerCase().replace('kias', '').trim();
+        
+            const onOpen = ["on", "open"];
+            const offClosed = ["off", "closed", "close"];
+        
+            if (onOpen.includes(corVal) && onOpen.includes(inVal)) return true;
+            if (offClosed.includes(corVal) && offClosed.includes(inVal)) return true;
+        
+            const dist = getLevenshteinDistance(inVal, corVal);
+            return corVal.length <= 4 ? dist <= 1 : dist <= 2;
         }
 
         function showAlert(icon, title, body, btnText, callback) {
